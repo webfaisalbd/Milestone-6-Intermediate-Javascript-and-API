@@ -169,3 +169,18 @@ function getPost(){
 }
 
 ```
+
+
+
+
+### `HTTP Request Methods`
+
+- https://www.w3schools.com/tags/ref_httpmethods.asp
+
+- in this link, get answer: `Compare GET vs. POST`
+
+
+
+### `HTTP response status codes`
+
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
