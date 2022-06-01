@@ -219,3 +219,92 @@ function displayAlbums(data) {
 
 loadAlbum();
 ```
+
+
+
+
+
+
+### Load images in DOM
+
+```javascript
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photos</title>
+</head>
+
+<style>
+    .sectionStyle {
+        background-color: aquamarine;
+        display: grid;
+        grid-template-columns: repeat(3, 300px);
+
+
+    }
+
+    .divStyle {
+        padding: 10px;
+        margin: 10px;
+        background-color: bisque;
+        border-radius: 10px;
+    }
+</style>
+
+<body>
+
+    <h3 style="text-align: center;">Photos</h3>
+    <button onclick="loadPhotos()"
+        style="width: 150px; color: aqua; background-color: blueviolet; border-radius: 10px;">Show All
+        Photo</button>
+
+
+    <section id="section">
+
+    </section>
+
+
+    <script src="index.js"></script>
+</body>
+
+</html>
+
+ 
+```
+
+
+```javascript
+function loadPhotos(){
+    fetch('https://jsonplaceholder.typicode.com/albums/1/photos')
+    .then(res => res.json())
+    .then(data => displayPhoto(data))
+}
+
+function displayPhoto(data){
+    // console.log(data);
+
+    const section = document.getElementById('section');
+    section.classList.add('sectionStyle');
+
+    for(const element of data){
+        console.log(element);
+        const div = document.createElement('div');
+        div.classList.add('divStyle');
+        div.style.width = '600px'
+
+        div.innerHTML= `
+        <p>${element.id}</p>
+        <h4>${element.title}</h4>
+        <img src=${element.url} alt="image" width="300px">
+        `;
+
+        section.appendChild(div);
+
+    }
+}
+```
+
