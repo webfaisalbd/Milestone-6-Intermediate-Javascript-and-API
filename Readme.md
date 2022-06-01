@@ -24,7 +24,7 @@ console.log(shopStringified.brand); // undefined
 
 ### Load posts and display on the website with CSS in DOM
 
-```
+```javascript
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,7 +63,7 @@ console.log(shopStringified.brand); // undefined
 ```
 
 
-```
+```javascript
 function loadPost(){
     fetch('https://jsonplaceholder.typicode.com/posts')
     .then(res => res.json())
@@ -76,6 +76,7 @@ function displayPost(data){
     for(const post of data){
         console.log(post);
         const div = document.createElement('div');
+        // class add kora hoise dom e, divStyle class ta likha ase html er style er vitore
         div.classList.add('divStyle');
         div.innerHTML = `
         <h2>${post.title}</h2>
@@ -89,3 +90,82 @@ function displayPost(data){
 loadPost();
 ```
 
+
+
+### PUT vs PATCH
+
+- `PUT` :  Put use korle previous data + new data shob send korte hoy. Tarmane Eita shob guli field ek sathe update kore, kono field faka thakle null set korbe.
+
+- Suppose, ekta object ase. Tar dui ta property.
+
+```javascript
+{name: "a", myAge: 10}
+```
+
+Kintu ami chai, shudu ei object er myAge(property) ta update kore, sekhane myAge ta 12 dite. kintu amk myAge er sathe name property te thaka ager value tao abar send korte hobe.
+
+example: 
+```javascript
+{name: "a", myAge: 12}
+```
+ shob send korte holo.
+
+
+
+- `PATCH` : Patch is mainly in network utilization by sending less data to the server and by consuming less bandwidth. 
+
+- If we are using any aws or any cloud plaform, we can see that we are even charged for network utilization like how much data went through.
+
+- shudu matro jei field ta update kora dorkar seita update korbe baki field guli ager value thakbe.
+
+- example: 
+
+```javascript
+{name: "b"}
+```
+sudu ekta field update kora jacce, ager value send korte hocce na.
+
+
+
+### Get and Post method code 
+
+#### Get
+
+```javascript
+
+
+// get data 
+function getData() {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+    .then(res => res.json())
+    .then(data => console.log(data))
+}
+
+
+```
+
+
+#### Post
+
+```javascript
+
+
+
+// post data
+function getPost(){
+    fetch('https://jsonplaceholder.typicode.com/posts',{
+        method: 'POST',
+        body: JSON.stringify({
+            title: 'MY Title',
+            description: 'This is my post',
+            id: 1
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        }
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+}
+
+```
