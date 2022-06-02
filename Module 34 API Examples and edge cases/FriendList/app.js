@@ -27,10 +27,36 @@ const displayFriend = (data) => {
        Email: ${element.email}
        <br />
        Location: ${element.location.country}
+       <br />
+       <button onClick="loadCountryByName('${element.location.country}')">Details</button>
         `;
 
         friendList.appendChild(div);
 
+  }
 
-    }
+}
+
+const loadCountryByName = (name) => {
+    // console.log(name);
+
+    const url = `https://restcountries.com/v3.1/name/${name}`;
+    
+    fetch(url)
+    .then(res => res.json())
+    .then(data => displayCountries(data[0]))
+
+}
+
+const displayCountries = (data) => {
+    // console.log(data);
+    const countryDetails = document.getElementById('countryDetails');
+
+    const div = document.createElement('div');
+    div.innerHTML= `
+    <p>${data.name.common}</p>
+    <img width="200px" src="${data.flags.png}" />
+    `;
+
+    countryDetails.appendChild(div);
 }
