@@ -528,3 +528,154 @@ const displayCountries = (data) => {
     countryDetails.appendChild(div);
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+### `Meal DB, load dynamic data to display Also Implement Async Await` www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata and www.themealdb.com/api/json/v1/1/lookup.php?i=52772
+
+```javascript
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal DB</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <h2 class="text-center">Search Your Meal</h2>
+
+
+    <!-- search field and button  -->
+    <div class="input-group mb-3 w-50 mx-auto">
+        <input id="search-field" type="text" class="form-control" placeholder="Search Your Meal"
+            aria-label="Recipient's username" aria-describedby="button-addon2">
+
+        <button onclick="searchFood()" id="search-button" class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+    </div>
+
+
+    <!-- single card details  -->
+
+    <div id="single-card-details" class="container">
+        <!-- <div class="card" style="width: 18rem;">
+            
+          </div> -->
+    </div>
+
+    
+
+
+    <!-- card  -->
+    <div id="search-result" class="row row-cols-1 row-cols-md-3 g-4 container">
+        
+        
+
+      </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
+ 
+```
+
+
+```javascript
+const searchFood = async () => {
+    const searchField = document.getElementById('search-field');
+    const searchText = searchField.value;
+    // console.log(searchText);
+
+    searchField.value = '';
+
+    if (searchText == '') {
+        alert('Search Your desired food');
+    }
+    else {
+        const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
+        // console.log(url);
+        // fetch(url)
+        //     .then(res => res.json())
+        //     .then(data => displayMeals(data.meals))
+        const res = await fetch(url);
+        const data = await res.json();
+        displayMeals(data.meals)
+
+    }
+
+}
+
+const displayMeals = (meals) => {
+    const searchResult = document.getElementById('search-result');
+
+    // clear search result 
+    searchResult.textContent = '';
+
+    meals.forEach(meal => {
+        // console.log(meal);
+        const div = document.createElement('div');
+        div.classList.add('col');
+        div.innerHTML = `
+        <div onclick="loadMealDetail(${meal.idMeal})" class="card">
+            <img src="${meal.strMealThumb}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">${meal.strMeal}</h5>
+              <p class="card-text">${meal.strInstructions.slice(0, 200)}.....</p>
+            </div>
+          </div>
+        `;
+        searchResult.appendChild(div);
+    })
+}
+
+const loadMealDetail = async (meal) => {
+    // console.log(meal);
+    const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal}`;
+
+    // fetch(url)
+    //     .then(res => res.json())
+    //     .then(data => displayMealDetails(data.meals[0]))
+
+    const res = await fetch(url);
+    const data = await res.json();
+    displayMealDetails(data.meals[0])
+}
+
+const displayMealDetails = meal => {
+    // console.log(meal);
+
+    const singleCardDetails = document.getElementById('single-card-details');
+    // clear search result 
+    singleCardDetails.textContent = '';
+
+    const div = document.createElement('div');
+    div.classList.add('card');
+    div.style.width = '48rem';
+    div.style.marginBottom = '20px';
+
+    div.innerHTML = `
+    <img src="${meal.strMealThumb}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">${meal.strMeal}</h5>
+      <p class="card-text">${meal.strInstructions}</p>
+      <a href="${meal.strYoutube}" target="_blank" class="btn btn-info">Go Youtube</a>
+    </div>
+
+    `;
+    singleCardDetails.appendChild(div);
+}
+```
