@@ -377,7 +377,11 @@ const displayFriend = (data) => {
     const myData = data.results;
 
     
-    for(const element of myData){
+        // for(const element of myData){
+        
+        // }
+
+    myData.forEach((element) => {
         // console.log(element);
         const div = document.createElement('div');
         div.style.margin= '10px';
@@ -395,8 +399,6 @@ const displayFriend = (data) => {
         `;
 
         friendList.appendChild(div);
-
-
-    }
+    })
 }
 ```
