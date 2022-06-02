@@ -16,6 +16,9 @@ const searchFood = () => {
 const displayMeals = (meals) => {
     const searchResult = document.getElementById('search-result');
 
+    // clear search result 
+    searchResult.textContent = '';
+
     meals.forEach(meal => {
         // console.log(meal);
         const div = document.createElement('div');
@@ -46,6 +49,8 @@ const displayMealDetails = meal => {
     // console.log(meal);
 
     const singleCardDetails = document.getElementById('single-card-details');
+    // clear search result 
+    singleCardDetails.textContent = '';
 
     const div = document.createElement('div');
     div.classList.add('card');
