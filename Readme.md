@@ -565,6 +565,11 @@ const displayCountries = (data) => {
         <button onclick="searchFood()" id="search-button" class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
     </div>
 
+    <!-- show error  -->
+    <div id="error-message">
+        <p class="text-danger text-center">Something went wrong, Please Try later.</p>
+    </div>
+
 
     <!-- single card details  -->
 
@@ -595,6 +600,8 @@ const displayCountries = (data) => {
 
 
 ```javascript
+document.getElementById('error-message').style.display = 'none';
+
 const searchFood = async () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
@@ -611,12 +618,21 @@ const searchFood = async () => {
         // fetch(url)
         //     .then(res => res.json())
         //     .then(data => displayMeals(data.meals))
-        const res = await fetch(url);
-        const data = await res.json();
-        displayMeals(data.meals)
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            displayMeals(data.meals)
+        }
+        catch(error){
+            displayError(error)
+        }
 
     }
 
+}
+
+const displayError = error => {
+    document.getElementById('error-message').style.display = 'block';
 }
 
 const displayMeals = (meals) => {

@@ -1,3 +1,5 @@
+document.getElementById('error-message').style.display = 'none';
+
 const searchFood = async () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
@@ -14,12 +16,21 @@ const searchFood = async () => {
         // fetch(url)
         //     .then(res => res.json())
         //     .then(data => displayMeals(data.meals))
-        const res = await fetch(url);
-        const data = await res.json();
-        displayMeals(data.meals)
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            displayMeals(data.meals)
+        }
+        catch(error){
+            displayError(error)
+        }
 
     }
 
+}
+
+const displayError = error => {
+    document.getElementById('error-message').style.display = 'block';
 }
 
 const displayMeals = (meals) => {
