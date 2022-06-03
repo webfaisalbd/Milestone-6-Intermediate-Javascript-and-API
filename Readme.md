@@ -695,3 +695,131 @@ const displayMealDetails = meal => {
     singleCardDetails.appendChild(div);
 }
 ```
+
+
+
+#### Try catch
+
+- for async await,
+
+```javascript
+try {
+            const res = await fetch(url);
+            const data = await res.json();
+            displayMeals(data.meals)
+        }
+        catch(error){
+            displayError(error)
+        }
+```
+
+- for fetch,
+
+```javascript
+         fetch(url)
+        .then(res => res.json())
+        .then(data => displayMeals(data.meals))
+        .catch(error => {
+            displayError(error)
+        })
+```
+
+
+
+
+
+
+
+
+### `Spinner Add in Meal DB` www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata 
+
+```javascript
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MealDb by Search</title>
+    <style>
+        #spinner{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Search your meal</h2>
+
+    <input type="text" id="search-field">
+    <button onclick="searchMeal()">Search</button>
+
+    <div id="spinner">
+        Loading..........
+    </div>
+
+    <div id="meals">
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+ 
+```
+
+
+```javascript
+const searchMeal = () => {
+    const searchText = document.getElementById('search-field').value;
+    // display spinner
+    toggleSpinner('block');
+    toggleSearchResult('none')
+    loadMeals(searchText);
+    document.getElementById('search-field').value= '';
+
+}
+
+// spinner 
+const toggleSpinner = (displayStyle) => {
+    document.getElementById('spinner').style.display= displayStyle;
+}
+
+// toggleSearchResult 
+const toggleSearchResult = (displayResult) => {
+    document.getElementById('meals').style.display= displayResult;
+}
+
+const loadMeals = searchText => {
+const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
+    fetch(url)
+    .then(res => res.json())
+    .then(data => displayMeals(data.meals))
+}
+
+const displayMeals = (meals) => {
+    console.log(meals);
+    const mealsContainer = document.getElementById('meals');
+    mealsContainer.textContent= '';
+
+    // when you search data that not found in api then occur forEach problem
+    // using optional chaining for avoiding forEach problem
+    meals?.forEach(meal => {
+        
+    const div = document.createElement('div');
+    div.innerHTML = `
+         <h2>${meal.strMeal}</h2>
+         <h5>${meal.strIngredient18 ? meal.strIngredient18 : 'Not Found'}</h5>
+         <p>${meal.strArea}</p>
+         <button>Order Now</button>
+    `;
+
+    mealsContainer.appendChild(div);
+    })
+
+    toggleSpinner('none');
+    toggleSearchResult('block')
+
+}
+
+```
+
